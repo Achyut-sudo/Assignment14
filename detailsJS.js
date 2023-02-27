@@ -1,21 +1,32 @@
 var info = document.getElementById('data');
 var btn = document.getElementById("btn");
 
+function util(data){
+    var retVal = "<h2>" + data.name+ " is a "+data.species+" that likes to eat " + data.foods.likes[0] ;
+    if(data.foods.likes.length > 1){
+        retVal += " and " + data.foods.likes[1] ;
+    }
+    retVal += " and dislikes " + data.foods.dislikes[0] ;
+    if(data.foods.dislikes.length > 1){
+        retVal += " and " + data.foods.dislikes[1] ;
+    }
 
-btn.addEventListner("click", function () {
-    var ourRequest = new XMLHttpRequest()
-    ourRequest.open('GET',"https://learnwebcode.github.io/json-example/animals-1.json");
-    ourRequest.onload = function(){
+    retVal += ".</h2>";
+    return retVal;
+}
 
-        var myData = JSON.parse(ourRequest.responseText);
-        console.log(myData);
-        var values = '<h2>${myDat[0].name} is a cat that likes to eat ${myData[0].foods.likes[0]} and ${myData[0].foods.likes[0]} and dislikes ${myData[0].foods.dislikes[0]} and ${myData[0].foods.dislikes[1]}.</h2>';
-        // <h2>${myDat[1].name} is a cat that likes to eat ${myData[1].foods.likes[0]} and ${myData[1].foods.likes[0]} and dislikes ${myData[1].foods.dislikes[0]} and ${myData[1].foods.dislikes[1]}.</h2>
-        // <h2>${myDat[2].name} is a cat that likes to eat ${myData[2].foods.likes[0]} and ${myData[2].foods.likes[0]} and dislikes ${myData[2].foods.dislikes[0]} and ${myData[2].foods.dislikes[1]}.</h2>";
+btn.addEventListener("click", function () {
+    var request = new XMLHttpRequest()
+    request.open('GET',"https://learnwebcode.github.io/json-example/animals-1.json");
+    request.onload = function () {
+
+        var data = JSON.parse(request.responseText);
+        console.log(data);
+        var values = util(data[0]) + util(data[1])  + util(data[2]);
         info.innerHTML = values;
 
     }
-    ourRequest.send();
+    request.send();
 
 
 })
